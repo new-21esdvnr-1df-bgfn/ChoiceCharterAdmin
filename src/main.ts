@@ -11,13 +11,48 @@ WA.onInit().then(() => {
     console.log('Scripting API ready');
     console.log('Player tags: ',WA.player.tags)
 
-    WA.room.area.onEnter('clock').subscribe(() => {
-        const today = new Date();
-        const time = today.getHours() + ":" + today.getMinutes();
-        currentPopup = WA.ui.openPopup("clockPopup", "It's " + time, []);
-    })
+    
+
+    // Julia custom TS CC
+    WA.room.onEnterLayer("roof-appear-zone").subscribe(() => {
+        WA.room.showLayer("roof-appear");
+        console.log("HHHHHIIIIIIIII")
+      });
+      
+    WA.room.onEnterLayer("floor").subscribe(() => {
+        WA.room.hideLayer("roof");
+        WA.room.hideLayer("roof-appear");
+        WA.room.hideLayer("walls-bg-front");
+        WA.room.hideLayer("sign");
+      });
+      
+    WA.room.onLeaveLayer("floor").subscribe(() => {
+        WA.room.showLayer("roof");
+        WA.room.showLayer("walls-bg-front");
+        WA.room.showLayer("facade-furniture-bg");
+        WA.room.showLayer("sign");
+      });
+  
+      WA.room.onEnterLayer("rooms_floor").subscribe(() => {
+        WA.room.hideLayer("facade-furniture-fg");
+        WA.room.hideLayer("facade");
+        WA.room.hideLayer("facade-furniture-bg");
+      });
+      
+    WA.room.onLeaveLayer("rooms_floor").subscribe(() => {
+        WA.room.showLayer("facade-furniture-fg");
+        WA.room.showLayer("facade");
+        WA.room.showLayer("facade-furniture-bg");
+      });
 
     WA.room.area.onLeave('clock').subscribe(closePopup)
+
+    //Popup Memorial tree
+    WA.room.onEnterLayer('memorial_tree_sign').subscribe(() => {
+        currentPopup = WA.ui.openPopup("memorial-tree-popup","Honoring Gary Morris",[]);
+    })
+    WA.room.onLeaveLayer('memorial_tree_sign').subscribe(closePopup)
+       
 
     // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
     bootstrapExtra().then(() => {
