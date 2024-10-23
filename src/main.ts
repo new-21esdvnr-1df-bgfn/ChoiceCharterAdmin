@@ -11,37 +11,50 @@ let currentPopup: any = undefined;
 WA.onInit().then(async() => {
     console.log('Scripting API ready');
     console.log('Player tags: ',WA.player.tags)
-    let webAnimationOutside: EmbeddedWebsite = await WA.room.website.get('daily-announcements-screen-outside');
+    let webAnimationOutside: EmbeddedWebsite;
+    
+    try {
+      webAnimationOutside = await WA.room.website.get('daily-announcements-screen-outside');
+    } catch(err: any) {
+      if (err instanceof Error) {
+        console.log(err.message);
+      }
+    }
+    
 
     // Julia custom TS CC
-    WA.room.onEnterLayer("roof-appear-zone").subscribe(async() => {
+    WA.room.onEnterLayer("roof-appear-zone").subscribe(() => {
         WA.room.showLayer("roof-appear");
         console.log("HHHHHIIIIIIIII")
       });
       
-    WA.room.onEnterLayer("floor").subscribe(async() => {
-        webAnimationOutside.visible = false;
+    WA.room.onEnterLayer("floor").subscribe(() => {
+        if(webAnimationOutside) {
+          webAnimationOutside.visible = false;
+        }
         WA.room.hideLayer("roof");
         WA.room.hideLayer("roof-appear");
         WA.room.hideLayer("walls-bg-front");
         WA.room.hideLayer("sign");
       });
       
-    WA.room.onLeaveLayer("floor").subscribe(async() => {
-        webAnimationOutside.visible = true;
+    WA.room.onLeaveLayer("floor").subscribe(() => {
+        if(webAnimationOutside) {
+          webAnimationOutside.visible = true;
+        }
         WA.room.showLayer("roof");
         WA.room.showLayer("walls-bg-front");
         WA.room.showLayer("facade-furniture-bg");
         WA.room.showLayer("sign");
       });
   
-      WA.room.onEnterLayer("rooms_floor").subscribe(async() => {
+      WA.room.onEnterLayer("rooms_floor").subscribe(() => {
         WA.room.hideLayer("facade-furniture-fg");
         WA.room.hideLayer("facade");
         WA.room.hideLayer("facade-furniture-bg");
       });
       
-    WA.room.onLeaveLayer("rooms_floor").subscribe(async() => {
+    WA.room.onLeaveLayer("rooms_floor").subscribe(() => {
         WA.room.showLayer("facade-furniture-fg");
         WA.room.showLayer("facade");
         WA.room.showLayer("facade-furniture-bg");
