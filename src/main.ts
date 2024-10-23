@@ -1,5 +1,6 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 
+import { EmbeddedWebsite } from "@workadventure/iframe-api-typings";
 import { bootstrapExtra } from "@workadventure/scripting-api-extra";
 
 console.log('Script started successfully');
@@ -7,11 +8,10 @@ console.log('Script started successfully');
 let currentPopup: any = undefined;
 
 // Waiting for the API to be ready
-WA.onInit().then(() => {
+WA.onInit().then(async() => {
     console.log('Scripting API ready');
     console.log('Player tags: ',WA.player.tags)
-
-    
+    let webAnimationOutside: EmbeddedWebsite = await WA.room.website.get('daily-announcements-screen-outside');
 
     // Julia custom TS CC
     WA.room.onEnterLayer("roof-appear-zone").subscribe(() => {
@@ -20,6 +20,7 @@ WA.onInit().then(() => {
       });
       
     WA.room.onEnterLayer("floor").subscribe(() => {
+        webAnimationOutside.visible = false;
         WA.room.hideLayer("roof");
         WA.room.hideLayer("roof-appear");
         WA.room.hideLayer("walls-bg-front");
@@ -27,6 +28,7 @@ WA.onInit().then(() => {
       });
       
     WA.room.onLeaveLayer("floor").subscribe(() => {
+        webAnimationOutside.visible = true;
         WA.room.showLayer("roof");
         WA.room.showLayer("walls-bg-front");
         WA.room.showLayer("facade-furniture-bg");
