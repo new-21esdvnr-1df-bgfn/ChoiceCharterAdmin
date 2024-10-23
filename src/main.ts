@@ -14,12 +14,12 @@ WA.onInit().then(async() => {
     let webAnimationOutside: EmbeddedWebsite = await WA.room.website.get('daily-announcements-screen-outside');
 
     // Julia custom TS CC
-    WA.room.onEnterLayer("roof-appear-zone").subscribe(() => {
+    WA.room.onEnterLayer("roof-appear-zone").subscribe(async() => {
         WA.room.showLayer("roof-appear");
         console.log("HHHHHIIIIIIIII")
       });
       
-    WA.room.onEnterLayer("floor").subscribe(() => {
+    WA.room.onEnterLayer("floor").subscribe(async() => {
         webAnimationOutside.visible = false;
         WA.room.hideLayer("roof");
         WA.room.hideLayer("roof-appear");
@@ -27,7 +27,7 @@ WA.onInit().then(async() => {
         WA.room.hideLayer("sign");
       });
       
-    WA.room.onLeaveLayer("floor").subscribe(() => {
+    WA.room.onLeaveLayer("floor").subscribe(async() => {
         webAnimationOutside.visible = true;
         WA.room.showLayer("roof");
         WA.room.showLayer("walls-bg-front");
@@ -35,19 +35,19 @@ WA.onInit().then(async() => {
         WA.room.showLayer("sign");
       });
   
-      WA.room.onEnterLayer("rooms_floor").subscribe(() => {
+      WA.room.onEnterLayer("rooms_floor").subscribe(async() => {
         WA.room.hideLayer("facade-furniture-fg");
         WA.room.hideLayer("facade");
         WA.room.hideLayer("facade-furniture-bg");
       });
       
-    WA.room.onLeaveLayer("rooms_floor").subscribe(() => {
+    WA.room.onLeaveLayer("rooms_floor").subscribe(async() => {
         WA.room.showLayer("facade-furniture-fg");
         WA.room.showLayer("facade");
         WA.room.showLayer("facade-furniture-bg");
       });
 
-    WA.room.area.onLeave('clock').subscribe(closePopup)
+    WA.room.area.onLeave('clock').subscribe(closePopup);
 
     //Popup Memorial tree
     WA.room.onEnterLayer('memorial_tree_sign').subscribe(() => {
