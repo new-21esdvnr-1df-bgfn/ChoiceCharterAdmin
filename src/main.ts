@@ -90,7 +90,7 @@ WA.onInit().then(async() => {
     WA.room.onEnterLayer("roof-appear-zone").subscribe(() => {
         WA.room.showLayer("roof-appear");
         console.log("HHHHHIIIIIIIII")
-      });
+    });
       
     WA.room.onEnterLayer("floor").subscribe(() => {
         if(webAnimationOutside) {
@@ -100,7 +100,8 @@ WA.onInit().then(async() => {
         WA.room.hideLayer("roof-appear");
         WA.room.hideLayer("walls-bg-front");
         WA.room.hideLayer("sign");
-      });
+        WA.room.hideLayer("glass");
+    });
       
     WA.room.onLeaveLayer("floor").subscribe(() => {
         if(webAnimationOutside) {
@@ -110,87 +111,88 @@ WA.onInit().then(async() => {
         WA.room.showLayer("walls-bg-front");
         WA.room.showLayer("facade-furniture-bg");
         WA.room.showLayer("sign");
-      });
+        WA.room.showLayer("glass");
+    });
   
-      WA.room.onEnterLayer("rooms_floor").subscribe(() => {
-        if(webFloor01NameplateMentor1) {
-          webFloor01NameplateMentor1.visible = false;
-        }
-        if(webFloor01NameplateMentor1a) {
-          webFloor01NameplateMentor1a.visible = false;
-        }
-        if(webFloor01NameplateMentor2) {
-          webFloor01NameplateMentor2.visible = false;
-        }
-        if(webFloor01NameplateMentor3) {
-          webFloor01NameplateMentor3.visible = false;
-        }
-        if(webFloor01NameplateMentor3a) {
-          webFloor01NameplateMentor3a.visible = false;
-        }
-        if(webFloor01NameplateMentor4) {
-          webFloor01NameplateMentor4.visible = false;
-        }
-        if(webFloor01NameplateMentor5) {
-          webFloor01NameplateMentor5.visible = false;
-        }
-        if(webFloor01NameplateMentor5a) {
-          webFloor01NameplateMentor5a.visible = false;
-        }
-        if(webFloor01NameplateMentor6) {
-          webFloor01NameplateMentor6.visible = false;
-        }
-        if(webFloor01NameplateMentor7) {
-          webFloor01NameplateMentor7.visible = false;
-        }
-        if(webFloor01NameplateMentor7a) {
-          webFloor01NameplateMentor7a.visible = false;
-        }
-        if(webFloor01NameplateMentor8) {
-          webFloor01NameplateMentor8.visible = false;
-        }
+    WA.room.onEnterLayer("rooms_floor").subscribe(() => {
+      if(webFloor01NameplateMentor1) {
+        webFloor01NameplateMentor1.visible = false;
+      }
+      if(webFloor01NameplateMentor1a) {
+        webFloor01NameplateMentor1a.visible = false;
+      }
+      if(webFloor01NameplateMentor2) {
+        webFloor01NameplateMentor2.visible = false;
+      }
+      if(webFloor01NameplateMentor3) {
+        webFloor01NameplateMentor3.visible = false;
+      }
+      if(webFloor01NameplateMentor3a) {
+        webFloor01NameplateMentor3a.visible = false;
+      }
+      if(webFloor01NameplateMentor4) {
+        webFloor01NameplateMentor4.visible = false;
+      }
+      if(webFloor01NameplateMentor5) {
+        webFloor01NameplateMentor5.visible = false;
+      }
+      if(webFloor01NameplateMentor5a) {
+        webFloor01NameplateMentor5a.visible = false;
+      }
+      if(webFloor01NameplateMentor6) {
+        webFloor01NameplateMentor6.visible = false;
+      }
+      if(webFloor01NameplateMentor7) {
+        webFloor01NameplateMentor7.visible = false;
+      }
+      if(webFloor01NameplateMentor7a) {
+        webFloor01NameplateMentor7a.visible = false;
+      }
+      if(webFloor01NameplateMentor8) {
+        webFloor01NameplateMentor8.visible = false;
+      }
 
-        if(webFloor01NameplateMentor9) {
-          webFloor01NameplateMentor9.visible = false;
-        }
-        if(webFloor01NameplateMentor9a) {
-          webFloor01NameplateMentor9a.visible = false;
-        }
-        if(webFloor01NameplateMentor10) {
-          webFloor01NameplateMentor10.visible = false;
-        }
-        if(webFloor01NameplateMentor11) {
-          webFloor01NameplateMentor11.visible = false;
-        }
-        if(webFloor01NameplateMentor11a) {
-          webFloor01NameplateMentor11a.visible = false;
-        }
-        if(webFloor01NameplateMentor12) {
-          webFloor01NameplateMentor12.visible = false;
-        }
-        if(webFloor01NameplateMentor13) {
-          webFloor01NameplateMentor13.visible = false;
-        }
-        if(webFloor01NameplateMentor13a) {
-          webFloor01NameplateMentor13a.visible = false;
-        }
-        if(webFloor01NameplateMentor14) {
-          webFloor01NameplateMentor14.visible = false;
-        }
-        if(webFloor01NameplateMentor15) {
-          webFloor01NameplateMentor15.visible = false;
-        }
-        if(webFloor01NameplateMentor15a) {
-          webFloor01NameplateMentor15a.visible = false;
-        }
-        if(webFloor01NameplateMentor16) {
-          webFloor01NameplateMentor16.visible = false;
-        }
+      if(webFloor01NameplateMentor9) {
+        webFloor01NameplateMentor9.visible = false;
+      }
+      if(webFloor01NameplateMentor9a) {
+        webFloor01NameplateMentor9a.visible = false;
+      }
+      if(webFloor01NameplateMentor10) {
+        webFloor01NameplateMentor10.visible = false;
+      }
+      if(webFloor01NameplateMentor11) {
+        webFloor01NameplateMentor11.visible = false;
+      }
+      if(webFloor01NameplateMentor11a) {
+        webFloor01NameplateMentor11a.visible = false;
+      }
+      if(webFloor01NameplateMentor12) {
+        webFloor01NameplateMentor12.visible = false;
+      }
+      if(webFloor01NameplateMentor13) {
+        webFloor01NameplateMentor13.visible = false;
+      }
+      if(webFloor01NameplateMentor13a) {
+        webFloor01NameplateMentor13a.visible = false;
+      }
+      if(webFloor01NameplateMentor14) {
+        webFloor01NameplateMentor14.visible = false;
+      }
+      if(webFloor01NameplateMentor15) {
+        webFloor01NameplateMentor15.visible = false;
+      }
+      if(webFloor01NameplateMentor15a) {
+        webFloor01NameplateMentor15a.visible = false;
+      }
+      if(webFloor01NameplateMentor16) {
+        webFloor01NameplateMentor16.visible = false;
+      }
 
-        WA.room.hideLayer("facade-furniture-fg");
-        WA.room.hideLayer("facade");
-        WA.room.hideLayer("facade-furniture-bg");
-      });
+      WA.room.hideLayer("facade-furniture-fg");
+      WA.room.hideLayer("facade");
+      WA.room.hideLayer("facade-furniture-bg");
+    });
       
     WA.room.onLeaveLayer("rooms_floor").subscribe(() => {
       if(webFloor01NameplateMentor1) {
@@ -270,7 +272,15 @@ WA.onInit().then(async() => {
         WA.room.showLayer("facade-furniture-fg");
         WA.room.showLayer("facade");
         WA.room.showLayer("facade-furniture-bg");
-      });
+    });
+
+    WA.room.onEnterLayer("snow_floor").subscribe(() => {
+      WA.room.showLayer("snow");
+    });
+
+    WA.room.onLeaveLayer("snow_floor").subscribe(() => {
+      WA.room.hideLayer("snow");
+    });
 
     WA.room.area.onLeave('clock').subscribe(closePopup);
 
