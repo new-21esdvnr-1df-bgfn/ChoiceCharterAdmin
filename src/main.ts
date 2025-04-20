@@ -362,12 +362,12 @@ WA.onInit().then(async() => {
         // Victor Popup
 
       WA.room.onEnterLayer('hercules-quest-1').subscribe(() => {
-        currentPopup = WA.ui.openPopup("hercules-banner-1","12 Labors of Hercules\n1. The Nemean Lion",[]);
+        currentPopup = WA.ui.openPopup("hercules-banner-1","Labors of Hercules\n1. The Nemean Lion",[]);
     })
     WA.room.onLeaveLayer('hercules-quest-1').subscribe(closePopup)
   
         WA.room.onEnterLayer('hercules-quest-2').subscribe(() => {
-        currentPopup = WA.ui.openPopup("hercules-banner-2","12 Labors of Hercules\n2. The Lernaean Hydra",[]);
+        currentPopup = WA.ui.openPopup("hercules-banner-2","Labors of Hercules\n2. The Lernaean Hydra",[]);
     })
     WA.room.onLeaveLayer('hercules-quest-2').subscribe(closePopup)  
   
@@ -420,7 +420,7 @@ WA.onInit().then(async() => {
         currentPopup = WA.ui.openPopup("hercules-banner-12","Labors of Hercules\n12. Cerberus",[]);
     })
     WA.room.onLeaveLayer('hercules-quest-12').subscribe(closePopup)  
-    
+
 }).catch(e => console.error(e));
 
 function closePopup(){
