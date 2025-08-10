@@ -1895,7 +1895,7 @@
          "name":"walls-bg-front",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":130,
          "x":0,
          "y":0
@@ -3240,7 +3240,7 @@
          "name":"roof",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":130,
          "x":0,
          "y":0
@@ -3397,7 +3397,7 @@
          "name":"sign",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":130,
          "x":0,
          "y":0
