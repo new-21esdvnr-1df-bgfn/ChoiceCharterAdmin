@@ -13,6 +13,8 @@ WA.onInit().then(async() => {
     console.log('Scripting API ready');
     console.log('Player tags: ',WA.player.tags)
     let webAnimationOutside: EmbeddedWebsite;
+    let webAnimationOutside2: EmbeddedWebsite;
+    let webAnimationOutside3: EmbeddedWebsite;
 
     let webFloor01NameplateMentor1: EmbeddedWebsite;
     let webFloor01NameplateMentor1a: EmbeddedWebsite;
@@ -49,18 +51,34 @@ WA.onInit().then(async() => {
     }
 
     try {
-      webFloor01NameplateMentor1 = await WA.room.website.get('nameplate-mentor-1');
-      webFloor01NameplateMentor1a = await WA.room.website.get('nameplate-mentor-1-a');
-      webFloor01NameplateMentor2 = await WA.room.website.get('nameplate-mentor-2');
-      webFloor01NameplateMentor3 = await WA.room.website.get('nameplate-mentor-3');
-      webFloor01NameplateMentor3a = await WA.room.website.get('nameplate-mentor-3-a');
-      webFloor01NameplateMentor4 = await WA.room.website.get('nameplate-mentor-4');
-      webFloor01NameplateMentor5 = await WA.room.website.get('nameplate-mentor-5');
-      webFloor01NameplateMentor5a = await WA.room.website.get('nameplate-mentor-5-a');
-      webFloor01NameplateMentor6 = await WA.room.website.get('nameplate-mentor-6');
-      webFloor01NameplateMentor7 = await WA.room.website.get('nameplate-mentor-7');
-      webFloor01NameplateMentor7a = await WA.room.website.get('nameplate-mentor-7-a');
-      webFloor01NameplateMentor8 = await WA.room.website.get('nameplate-mentor-8');
+      webAnimationOutside2 = await WA.room.website.get('nameplate-1');
+    } catch(err: any) {
+      if (err instanceof Error) {
+        console.log(err.message);
+      }
+    }
+
+    try {
+      webAnimationOutside3 = await WA.room.website.get('nameplate-2');
+    } catch(err: any) {
+      if (err instanceof Error) {
+        console.log(err.message);
+      }
+    }
+
+    try {
+      webFloor01NameplateMentor1 = await WA.room.website.get('nameplate-1');
+      webFloor01NameplateMentor1a = await WA.room.website.get('nameplate-1-a');
+      webFloor01NameplateMentor2 = await WA.room.website.get('nameplate-2');
+      webFloor01NameplateMentor3 = await WA.room.website.get('nameplate-3');
+      webFloor01NameplateMentor3a = await WA.room.website.get('nameplate-3-a');
+      webFloor01NameplateMentor4 = await WA.room.website.get('nameplate-4');
+      webFloor01NameplateMentor5 = await WA.room.website.get('nameplate-5');
+      webFloor01NameplateMentor5a = await WA.room.website.get('nameplate-5-a');
+      webFloor01NameplateMentor6 = await WA.room.website.get('nameplate-6');
+      webFloor01NameplateMentor7 = await WA.room.website.get('nameplate-7');
+      webFloor01NameplateMentor7a = await WA.room.website.get('nameplate-7-a');
+      webFloor01NameplateMentor8 = await WA.room.website.get('nameplate-8');
     } catch(err: any) {
       if (err instanceof Error) {
         console.log(err.message);
@@ -104,6 +122,28 @@ WA.onInit().then(async() => {
         WA.room.hideLayer("glass");
     });
       
+    WA.room.onEnterLayer("floor").subscribe(() => {
+      if(webAnimationOutside2) {
+        webAnimationOutside2.visible = false;
+      }
+      WA.room.hideLayer("roof");
+      WA.room.hideLayer("roof-appear");
+      WA.room.hideLayer("walls-bg-front");
+      WA.room.hideLayer("sign");
+      WA.room.hideLayer("glass");
+  });
+
+  WA.room.onEnterLayer("floor").subscribe(() => {
+    if(webAnimationOutside3) {
+      webAnimationOutside3.visible = false;
+    }
+    WA.room.hideLayer("roof");
+    WA.room.hideLayer("roof-appear");
+    WA.room.hideLayer("walls-bg-front");
+    WA.room.hideLayer("sign");
+    WA.room.hideLayer("glass");
+});
+
     WA.room.onLeaveLayer("floor").subscribe(() => {
         if(webAnimationOutside) {
           webAnimationOutside.visible = true;
@@ -114,6 +154,28 @@ WA.onInit().then(async() => {
         WA.room.showLayer("sign");
         WA.room.showLayer("glass");
     });
+
+    WA.room.onLeaveLayer("floor").subscribe(() => {
+      if(webAnimationOutside2) {
+        webAnimationOutside2.visible = true;
+      }
+      WA.room.showLayer("roof");
+      WA.room.showLayer("walls-bg-front");
+      WA.room.showLayer("facade-furniture-bg");
+      WA.room.showLayer("sign");
+      WA.room.showLayer("glass");
+  });
+
+  WA.room.onLeaveLayer("floor").subscribe(() => {
+    if(webAnimationOutside3) {
+      webAnimationOutside3.visible = true;
+    }
+    WA.room.showLayer("roof");
+    WA.room.showLayer("walls-bg-front");
+    WA.room.showLayer("facade-furniture-bg");
+    WA.room.showLayer("sign");
+    WA.room.showLayer("glass");
+});
   
     WA.room.onEnterLayer("rooms_floor").subscribe(() => {
       if(webFloor01NameplateMentor1) {
@@ -130,9 +192,7 @@ WA.onInit().then(async() => {
       }
       if(webFloor01NameplateMentor3a) {
         webFloor01NameplateMentor3a.visible = false;
-      }
-      if(webFloor01NameplateMentor4) {
-        webFloor01NameplateMentor4.visible = false;
+
       }
       if(webFloor01NameplateMentor5) {
         webFloor01NameplateMentor5.visible = false;
