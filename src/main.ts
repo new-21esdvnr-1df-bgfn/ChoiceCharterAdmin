@@ -16,9 +16,7 @@ WA.onInit().then(async() => {
     let webAnimationOutside2: EmbeddedWebsite;
     let webAnimationOutside3: EmbeddedWebsite;
 
-    let webFloor01NameplateMentor1: EmbeddedWebsite;
     let webFloor01NameplateMentor1a: EmbeddedWebsite;
-    let webFloor01NameplateMentor2: EmbeddedWebsite;
     let webFloor01NameplateMentor3: EmbeddedWebsite;
     let webFloor01NameplateMentor3a: EmbeddedWebsite;
     let webFloor01NameplateMentor4: EmbeddedWebsite;
@@ -67,9 +65,7 @@ WA.onInit().then(async() => {
     }
 
     try {
-      webFloor01NameplateMentor1 = await WA.room.website.get('nameplate-1');
       webFloor01NameplateMentor1a = await WA.room.website.get('nameplate-1-a');
-      webFloor01NameplateMentor2 = await WA.room.website.get('nameplate-2');
       webFloor01NameplateMentor3 = await WA.room.website.get('nameplate-3');
       webFloor01NameplateMentor3a = await WA.room.website.get('nameplate-3-a');
       webFloor01NameplateMentor4 = await WA.room.website.get('nameplate-4');
@@ -178,21 +174,17 @@ WA.onInit().then(async() => {
 });
   
     WA.room.onEnterLayer("rooms_floor").subscribe(() => {
-      if(webFloor01NameplateMentor1) {
-        webFloor01NameplateMentor1.visible = false;
-      }
       if(webFloor01NameplateMentor1a) {
         webFloor01NameplateMentor1a.visible = false;
-      }
-      if(webFloor01NameplateMentor2) {
-        webFloor01NameplateMentor2.visible = false;
       }
       if(webFloor01NameplateMentor3) {
         webFloor01NameplateMentor3.visible = false;
       }
       if(webFloor01NameplateMentor3a) {
         webFloor01NameplateMentor3a.visible = false;
-
+      }
+      if(webFloor01NameplateMentor4) {
+        webFloor01NameplateMentor4.visible = false;
       }
       if(webFloor01NameplateMentor5) {
         webFloor01NameplateMentor5.visible = false;
@@ -256,14 +248,8 @@ WA.onInit().then(async() => {
     });
       
     WA.room.onLeaveLayer("rooms_floor").subscribe(() => {
-      if(webFloor01NameplateMentor1) {
-        webFloor01NameplateMentor1.visible = true;
-      }
       if(webFloor01NameplateMentor1a) {
         webFloor01NameplateMentor1a.visible = true;
-      }
-      if(webFloor01NameplateMentor2) {
-        webFloor01NameplateMentor2.visible = true;
       }
       if(webFloor01NameplateMentor3) {
         webFloor01NameplateMentor3.visible = true;
