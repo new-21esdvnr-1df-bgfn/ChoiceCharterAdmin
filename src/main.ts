@@ -12,6 +12,17 @@ let currentPopup: any = undefined;
 WA.onInit().then(async() => {
     console.log('Scripting API ready');
     console.log('Player tags: ',WA.player.tags)
+
+    // Study shift log
+
+    console.log('Testing Google sheets logging');
+
+    WA.room.onEnterLayer("study-shift-zone").subscribe(() => {
+    const firstPing = true; // every entry counts as a first ping
+
+    sendPlayerDataToGoogle(firstPing);
+      });
+
     let webAnimationOutside: EmbeddedWebsite;
     let webAnimationOutside2: EmbeddedWebsite;
     let webAnimationOutside3: EmbeddedWebsite;
@@ -540,14 +551,6 @@ WA.onInit().then(() => {
     setInterval(() => {
         sendPlayerData(firstPing);
     }, 300000);
-
-    console.log('Testing Google sheets logging');
-
-    WA.room.onEnterLayer("study-shift-zone").subscribe(() => {
-    const firstPing = true; // every entry counts as a first ping
-
-    sendPlayerDataToGoogle(firstPing);
-      });
 });
 //// End of Tracking Ping Script
 
