@@ -545,7 +545,7 @@ WA.onInit().then(() => {
 
     WA.room.onEnterLayer("study-shift-zone").subscribe(() => {
 
-    sendPlayerDataToGoogle(true);
+    sendPlayerDataToGoogle();
       });
 });
 //// End of Tracking Ping Script
@@ -553,7 +553,7 @@ WA.onInit().then(() => {
 //////// Google Sheets Logger with Minutes
 let googleFirstPingTimestamp: number | null = null;
 
-async function sendPlayerDataToGoogle(firstPing: boolean) {
+async function sendPlayerDataToGoogle() {
     const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwPh14VPgcIXoyP2DgwuDa4pgzSMCY31o8-ugs6AZt3SvCN9BYN7ONUcxyOuWBLgBR1/exec";
 
     const { uuid, id, name } = WA.player;
