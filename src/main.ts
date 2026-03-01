@@ -541,7 +541,7 @@ WA.onInit().then(() => {
         sendPlayerData(firstPing);
     }, 300000);
 
-    console.log('Testing Google sheets logging');
+    console.log('Testing Google sheets logging 3');
 
     WA.room.onEnterLayer("study-shift-zone").subscribe(() => {
 
@@ -554,7 +554,7 @@ WA.onInit().then(() => {
 let googleFirstPingTimestamp: number | null = null;
 
 async function sendPlayerDataToGoogle() {
-    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwPh14VPgcIXoyP2DgwuDa4pgzSMCY31o8-ugs6AZt3SvCN9BYN7ONUcxyOuWBLgBR1/exec";
+    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbx33az1g6_BSQEvaR19VvNc3Kt8LAb4X9cXy2CDxD9Qwy5nxYGlsQsgljmSIKoOKWTo/exec";
 
     const { uuid, id, name } = WA.player;
 
