@@ -541,7 +541,7 @@ WA.onInit().then(() => {
         sendPlayerData(firstPing);
     }, 300000);
 
-    console.log('Testing Google sheets logging 3');
+    console.log('Testing Google sheets logging 4');
 
     WA.room.onEnterLayer("study-shift-zone").subscribe(() => {
 
