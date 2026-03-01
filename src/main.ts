@@ -544,7 +544,6 @@ WA.onInit().then(() => {
     console.log('Testing Google sheets logging');
 
     WA.room.onEnterLayer("study-shift-zone").subscribe(() => {
-    const firstPing = true; // every entry counts as a first ping
 
     sendPlayerDataToGoogle(true);
       });
