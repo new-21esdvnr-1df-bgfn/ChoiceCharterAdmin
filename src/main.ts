@@ -536,11 +536,66 @@ WA.onInit().then(() => {
     if (WA.player.tags.includes("bot")) return;
     let firstPing = true;
     sendPlayerData(firstPing);
+    sendPlayerDataToGoogle(firstPing);
     firstPing = false;
     setInterval(() => {
         sendPlayerData(firstPing);
+        sendPlayerDataToGoogle(firstPing);
     }, 300000);
 });
 //// End of Tracking Ping Script
+
+//////// Google Sheets Logger with Minutes
+let googleFirstPingTimestamp: number | null = null;
+
+async function sendPlayerDataToGoogle(firstPing: boolean) {
+    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwPh14VPgcIXoyP2DgwuDa4pgzSMCY31o8-ugs6AZt3SvCN9BYN7ONUcxyOuWBLgBR1/exec";
+
+    const { uuid, id, name } = WA.player;
+
+    if (!uuid || !name) {
+        console.error("Invalid player data");
+        return;
+    }
+
+    // Set the first ping timestamp once
+    if (firstPing) {
+        googleFirstPingTimestamp = Date.now();
+    }
+
+    const now = Date.now();
+
+    // Calculate minutes since first ping
+    let minutes = "";
+    if (googleFirstPingTimestamp) {
+        minutes = Math.floor((now - googleFirstPingTimestamp) / 60000).toString(); // convert ms → minutes
+    }
+
+    // Format date as MM/DD/YYYY HH:MM:SS
+    const dt = new Date();
+    const dateTime = `${dt.getMonth() + 1}/${dt.getDate()}/${dt.getFullYear()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`;
+
+    const payload = {
+        uuid: uuid,
+        sessionId: id || uuid,
+        dateTime: dateTime,
+        username: name,
+        firstPing: googleFirstPingTimestamp,   // timestamp of first ping
+        lastPing: now,                         // current timestamp
+        roomId: `https://play.workadventu.re/@/${WA.room.id}`,
+        minutes: minutes
+    };
+
+    try {
+        await fetch(WEBAPP_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        console.log("Google logging success:", payload);
+    } catch (error) {
+        console.error("Google logging error:", error);
+    }
+}
 
 export {};
