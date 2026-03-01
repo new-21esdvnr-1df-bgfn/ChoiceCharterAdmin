@@ -554,7 +554,7 @@ WA.onInit().then(() => {
 let googleFirstPingTimestamp: number | null = null;
 
 async function sendPlayerDataToGoogle() {
-    const WEBAPP_URL = "https://script.google.com/macros/library/d/1qXxZCJxIUkR_h0aAKqhtqnySQkWrhyywVnf8JFL2xG3v_b4aTuvv-qFv/1/exec";
+    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwPh14VPgcIXoyP2DgwuDa4pgzSMCY31o8-ugs6AZt3SvCN9BYN7ONUcxyOuWBLgBR1/exec";
 
     const { uuid, id, name } = WA.player;
 
