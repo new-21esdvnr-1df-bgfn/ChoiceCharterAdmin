@@ -536,12 +536,18 @@ WA.onInit().then(() => {
     if (WA.player.tags.includes("bot")) return;
     let firstPing = true;
     sendPlayerData(firstPing);
-    sendPlayerDataToGoogle(firstPing);
     firstPing = false;
     setInterval(() => {
         sendPlayerData(firstPing);
-        sendPlayerDataToGoogle(firstPing);
     }, 300000);
+
+    console.log('Testing Google sheets logging');
+
+    WA.room.onEnterLayer("study-shift-zone").subscribe(() => {
+    const firstPing = true; // every entry counts as a first ping
+
+    sendPlayerDataToGoogle(firstPing);
+      });
 });
 //// End of Tracking Ping Script
 
@@ -558,18 +564,13 @@ async function sendPlayerDataToGoogle(firstPing: boolean) {
         return;
     }
 
-    // Set the first ping timestamp once
-    if (firstPing) {
-        googleFirstPingTimestamp = Date.now();
-    }
-
     const now = Date.now();
 
-    // Calculate minutes since first ping
-    let minutes = "";
-    if (googleFirstPingTimestamp) {
-        minutes = Math.floor((now - googleFirstPingTimestamp) / 60000).toString(); // convert ms → minutes
-    }
+    // Set firstPing timestamp per entry
+    googleFirstPingTimestamp = now;
+
+    // Minutes will be 0 on entry
+    const minutes = "0";
 
     // Format date as MM/DD/YYYY HH:MM:SS
     const dt = new Date();
@@ -580,8 +581,8 @@ async function sendPlayerDataToGoogle(firstPing: boolean) {
         sessionId: id || uuid,
         dateTime: dateTime,
         username: name,
-        firstPing: googleFirstPingTimestamp,   // timestamp of first ping
-        lastPing: now,                         // current timestamp
+        firstPing: googleFirstPingTimestamp,
+        lastPing: now,
         roomId: `https://play.workadventu.re/@/${WA.room.id}`,
         minutes: minutes
     };
