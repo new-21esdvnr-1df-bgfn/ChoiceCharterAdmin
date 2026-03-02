@@ -541,60 +541,43 @@ WA.onInit().then(() => {
         sendPlayerData(firstPing);
     }, 300000);
 
-    console.log('Testing Google sheets logging 4');
+    console.log('Testing Google sheets logging 5');
 
     WA.room.onEnterLayer("study-shift-zone").subscribe(() => {
 
-    sendPlayerDataToGoogle();
+    sendPlayerDataToGoogleForm();
       });
 });
 //// End of Tracking Ping Script
 
-//////// Google Sheets Logger with Minutes
-let googleFirstPingTimestamp: number | null = null;
+//////// Study Shift
+async function sendPlayerDataToGoogleForm() {
+    const FORM_URL = "https://docs.google.com/forms/d/e/1mffv8PVSZRNUdN4jHUK_6XDuw9mQj7GOeidAeLXSxsI/formResponse";
 
-async function sendPlayerDataToGoogle() {
-    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbx33az1g6_BSQEvaR19VvNc3Kt8LAb4X9cXy2CDxD9Qwy5nxYGlsQsgljmSIKoOKWTo/exec";
+    const { uuid, name, id } = WA.player;
+    if (!uuid || !name) return;
 
-    const { uuid, id, name } = WA.player;
-
-    if (!uuid || !name) {
-        console.error("Invalid player data");
-        return;
-    }
-
-    const now = Date.now();
-
-    // Set firstPing timestamp per entry
-    googleFirstPingTimestamp = now;
-
-    // Minutes will be 0 on entry
-    const minutes = "0";
-
-    // Format date as MM/DD/YYYY HH:MM:SS
     const dt = new Date();
     const dateTime = `${dt.getMonth() + 1}/${dt.getDate()}/${dt.getFullYear()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`;
 
-    const payload = {
-        uuid: uuid,
-        sessionId: id || uuid,
-        dateTime: dateTime,
-        username: name,
-        firstPing: googleFirstPingTimestamp,
-        lastPing: now,
-        roomId: `https://play.workadventu.re/@/${WA.room.id}`,
-        minutes: minutes
-    };
+    // Google Forms field entry IDs
+    const payload = new URLSearchParams();
+    payload.append("entry.386345691", uuid);       // Player UUID
+    payload.append("entry.1389736763", id || uuid); // Session ID
+    payload.append("entry.292129118", name);      // Username
+    payload.append("entry.1655038687", dateTime); // Timestamp
+    payload.append("entry.1855601666", WA.room.id); // Room ID
+    // Add other fields if needed
 
     try {
-        await fetch(WEBAPP_URL, {
+        await fetch(FORM_URL, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
+            body: payload,
+            mode: "no-cors" // Important: prevents CORS blocking
         });
-        console.log("Google logging success:", payload);
+        console.log("Google Form logging success:", payload.toString());
     } catch (error) {
-        console.error("Google logging error:", error);
+        console.error("Google Form logging error:", error);
     }
 }
 
