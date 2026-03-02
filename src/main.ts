@@ -543,7 +543,10 @@ WA.onInit().then(() => {
 
     //// End of Tracking Ping Script
 
-// Study Shift logging (Google Forms) — using timespent
+// Study Shift logging (Google Forms)
+console.log('Study Shift Google Forms 1.0');
+
+const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSc9lHYhZy-AjWNShTl-pN97_E4weWEvOgLJevo3yDMbKBNwrg/formResponse";
 
 let enterTime: number | undefined; // store entry timestamp
 
@@ -575,8 +578,6 @@ WA.room.onLeaveLayer("study-shift-zone").subscribe(() => {
     payload.append("entry.292129118", name);                 // username
     payload.append("entry.1855601666", enterTime.toString()); // firstPing = time enter
     payload.append("entry.519259110", exitTime.toString());   // lastPing = time exit
-
-    const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSc9lHYhZy-AjWNShTl-pN97_E4weWEvOgLJevo3yDMbKBNwrg/formResponse";
 
     try {
         fetch(FORM_URL, { method: "POST", body: payload, mode: "no-cors" });
