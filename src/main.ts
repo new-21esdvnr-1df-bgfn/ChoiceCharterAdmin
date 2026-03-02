@@ -601,11 +601,11 @@ async function sendPlayerDataToGoogleForm(firstPing: boolean, lastPing: boolean)
     const dateTime = `${dt.getMonth()+1}/${dt.getDate()}/${dt.getFullYear()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`;
 
     const payload = new URLSearchParams();
-    payload.append("entry.890293588", WA.room.id);          // roomId
-    payload.append("entry.1655038687", dateTime);          // dateTime
-    payload.append("entry.292129118", name);              // username
-    payload.append("entry.519259110", firstPing ? "1" : "0"); // firstPing
-    payload.append("entry.1855601666", lastPing ? "1" : "0");  // lastPing
+    payload.append("entry.890293588", "Study Shift");          // roomId
+    payload.append("entry.292129118", dateTime);          // dateTime
+    payload.append("entry.1655038687", name);              // username
+    payload.append("entry.1855601666", firstPing ? "1" : "0"); // firstPing
+    payload.append("entry.519259110", lastPing ? "1" : "0");  // lastPing
 
     try {
         await fetch(FORM_URL, { method: "POST", body: payload, mode: "no-cors" });
