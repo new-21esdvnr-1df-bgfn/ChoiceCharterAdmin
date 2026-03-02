@@ -552,7 +552,7 @@ WA.onInit().then(() => {
 
 //////// Study Shift
 async function sendPlayerDataToGoogleForm() {
-    const FORM_URL = "https://docs.google.com/forms/d/e/1mffv8PVSZRNUdN4jHUK_6XDuw9mQj7GOeidAeLXSxsI/formResponse";
+    const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSc9lHYhZy-AjWNShTl-pN97_E4weWEvOgLJevo3yDMbKBNwrg/formResponse";
 
     const { uuid, name, id } = WA.player;
     if (!uuid || !name) return;
