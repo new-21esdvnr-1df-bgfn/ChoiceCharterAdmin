@@ -570,9 +570,9 @@ WA.room.onLeaveLayer("study-shift-zone").subscribe(() => {
     if (!name) return;
 
     const payload = new URLSearchParams();
-    payload.append("entry.890293588", WA.room.id);           // roomId
+    payload.append("entry.890293588", WA.room.id);            // roomId
     payload.append("entry.1655038687", durationMin.toString()); // timespent in minutes
-    payload.append("entry.292129118", name);                // username
+    payload.append("entry.292129118", name);                 // username
     payload.append("entry.1855601666", enterTime.toString()); // firstPing = time enter
     payload.append("entry.519259110", exitTime.toString());   // lastPing = time exit
 
@@ -588,7 +588,7 @@ WA.room.onLeaveLayer("study-shift-zone").subscribe(() => {
     enterTime = undefined; // reset for next session
 });
 
-// Optional: handle browser/tab close while in the zone
+// Handle browser/tab close while in the zone
 window.addEventListener("beforeunload", () => {
     if (!enterTime) return;
 
