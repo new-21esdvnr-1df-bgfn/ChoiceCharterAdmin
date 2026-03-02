@@ -543,69 +543,55 @@ WA.onInit().then(() => {
 
     //// End of Tracking Ping Script
 
-    // Study Shift
+// Study Shift Zone Logging
+console.log('Initializing Study Shift Google Form logging');
 
-    console.log('Testing Google forms');
-
-    let inStudyZone = false;
-let firstPingSent = false;
-let heartbeatInterval: number | undefined;
-
-// Heartbeat function to send data every 5 minutes
-function startHeartbeat() {
-    if (!heartbeatInterval) {
-        heartbeatInterval = window.setInterval(() => {
-            if (inStudyZone) sendPlayerDataToGoogleForm(false, false);
-        }, 5 * 60 * 1000); // 5 minutes
-    }
-}
-
-function stopHeartbeat() {
-    if (heartbeatInterval) {
-        clearInterval(heartbeatInterval);
-        heartbeatInterval = undefined;
-    }
-}
+let inStudyZone = false;
+let startTime: string | null = null;
 
 // Subscribe to entering the study zone
 WA.room.onEnterLayer("study-shift-zone").subscribe(() => {
-    inStudyZone = true;
-    if (!firstPingSent) {
-        sendPlayerDataToGoogleForm(true, false); // firstPing
-        firstPingSent = true;
+    if (!inStudyZone) {
+        inStudyZone = true;
+        const dt = new Date();
+        startTime = `${dt.getMonth() + 1}/${dt.getDate()}/${dt.getFullYear()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`;
     }
-    startHeartbeat();
 });
 
 // Subscribe to leaving the study zone
 WA.room.onLeaveLayer("study-shift-zone").subscribe(() => {
-    inStudyZone = false;
-    sendPlayerDataToGoogleForm(false, true); // lastPing
-    stopHeartbeat();
+    if (inStudyZone && startTime) {
+        const dt = new Date();
+        const endTime = `${dt.getMonth() + 1}/${dt.getDate()}/${dt.getFullYear()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`;
+        sendPlayerDataToGoogleForm(startTime, endTime); // log both times
+        inStudyZone = false;
+        startTime = null;
+    }
 });
 
-// Handle browser close or tab close while in study zone
+// Handle browser/tab close while in study zone
 window.addEventListener("beforeunload", () => {
-    if (inStudyZone) {
-        sendPlayerDataToGoogleForm(false, true); // lastPing
+    if (inStudyZone && startTime) {
+        const dt = new Date();
+        const endTime = `${dt.getMonth() + 1}/${dt.getDate()}/${dt.getFullYear()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`;
+        sendPlayerDataToGoogleForm(startTime, endTime); // log both times
+        inStudyZone = false;
+        startTime = null;
     }
 });
 
 // Google Form logging function
-async function sendPlayerDataToGoogleForm(firstPing: boolean, lastPing: boolean) {
+async function sendPlayerDataToGoogleForm(firstPingTime: string, lastPingTime: string) {
     const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSc9lHYhZy-AjWNShTl-pN97_E4weWEvOgLJevo3yDMbKBNwrg/formResponse";
     const { name } = WA.player;
     if (!name) return;
 
-    const dt = new Date();
-    const dateTime = `${dt.getMonth()+1}/${dt.getDate()}/${dt.getFullYear()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`;
-
     const payload = new URLSearchParams();
-    payload.append("entry.890293588", "Study Shift");          // roomId
-    payload.append("entry.292129118", dateTime);          // dateTime
-    payload.append("entry.1655038687", name);              // username
-    payload.append("entry.1855601666", firstPing ? "1" : "0"); // firstPing
-    payload.append("entry.519259110", lastPing ? "1" : "0");  // lastPing
+    payload.append("entry.890293588", "Study Shift");   // roomId
+    payload.append("entry.292129118", firstPingTime);   // dateTime = start
+    payload.append("entry.1655038687", name);           // username
+    payload.append("entry.1855601666", firstPingTime);  // firstPing (start time)
+    payload.append("entry.519259110", lastPingTime);    // lastPing (end time)
 
     try {
         await fetch(FORM_URL, { method: "POST", body: payload, mode: "no-cors" });
