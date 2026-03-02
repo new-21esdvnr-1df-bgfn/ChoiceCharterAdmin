@@ -541,44 +541,80 @@ WA.onInit().then(() => {
         sendPlayerData(firstPing);
     }, 300000);
 
-    console.log('Testing Google sheets logging 5');
+    //// End of Tracking Ping Script
 
-    WA.room.onEnterLayer("study-shift-zone").subscribe(() => {
+    // Study Shift
 
-    sendPlayerDataToGoogleForm();
-      });
+    console.log('Testing Google forms');
+
+    let inStudyZone = false;
+let firstPingSent = false;
+let heartbeatInterval: number | undefined;
+
+// Heartbeat function to send data every 5 minutes
+function startHeartbeat() {
+    if (!heartbeatInterval) {
+        heartbeatInterval = window.setInterval(() => {
+            if (inStudyZone) sendPlayerDataToGoogleForm(false, false);
+        }, 5 * 60 * 1000); // 5 minutes
+    }
+}
+
+function stopHeartbeat() {
+    if (heartbeatInterval) {
+        clearInterval(heartbeatInterval);
+        heartbeatInterval = undefined;
+    }
+}
+
+// Subscribe to entering the study zone
+WA.room.onEnterLayer("study-shift-zone").subscribe(() => {
+    inStudyZone = true;
+    if (!firstPingSent) {
+        sendPlayerDataToGoogleForm(true, false); // firstPing
+        firstPingSent = true;
+    }
+    startHeartbeat();
 });
-//// End of Tracking Ping Script
 
-//////// Study Shift
-async function sendPlayerDataToGoogleForm() {
+// Subscribe to leaving the study zone
+WA.room.onLeaveLayer("study-shift-zone").subscribe(() => {
+    inStudyZone = false;
+    sendPlayerDataToGoogleForm(false, true); // lastPing
+    stopHeartbeat();
+});
+
+// Handle browser close or tab close while in study zone
+window.addEventListener("beforeunload", () => {
+    if (inStudyZone) {
+        sendPlayerDataToGoogleForm(false, true); // lastPing
+    }
+});
+
+// Google Form logging function
+async function sendPlayerDataToGoogleForm(firstPing: boolean, lastPing: boolean) {
     const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSc9lHYhZy-AjWNShTl-pN97_E4weWEvOgLJevo3yDMbKBNwrg/formResponse";
-
-    const { uuid, name, id } = WA.player;
-    if (!uuid || !name) return;
+    const { name } = WA.player;
+    if (!name) return;
 
     const dt = new Date();
-    const dateTime = `${dt.getMonth() + 1}/${dt.getDate()}/${dt.getFullYear()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`;
+    const dateTime = `${dt.getMonth()+1}/${dt.getDate()}/${dt.getFullYear()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`;
 
-    // Google Forms field entry IDs
     const payload = new URLSearchParams();
-    payload.append("entry.386345691", uuid);       // Player UUID
-    payload.append("entry.1389736763", id || uuid); // Session ID
-    payload.append("entry.292129118", name);      // Username
-    payload.append("entry.1655038687", dateTime); // Timestamp
-    payload.append("entry.1855601666", WA.room.id); // Room ID
-    // Add other fields if needed
+    payload.append("entry.890293588", WA.room.id);          // roomId
+    payload.append("entry.1655038687", dateTime);          // dateTime
+    payload.append("entry.292129118", name);              // username
+    payload.append("entry.519259110", firstPing ? "1" : "0"); // firstPing
+    payload.append("entry.1855601666", lastPing ? "1" : "0");  // lastPing
 
     try {
-        await fetch(FORM_URL, {
-            method: "POST",
-            body: payload,
-            mode: "no-cors" // Important: prevents CORS blocking
-        });
+        await fetch(FORM_URL, { method: "POST", body: payload, mode: "no-cors" });
         console.log("Google Form logging success:", payload.toString());
     } catch (error) {
         console.error("Google Form logging error:", error);
     }
 }
+
+    });
 
 export {};
