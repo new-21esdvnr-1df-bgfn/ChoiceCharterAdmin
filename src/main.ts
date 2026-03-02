@@ -543,63 +543,75 @@ WA.onInit().then(() => {
 
     //// End of Tracking Ping Script
 
-// Study Shift Zone Logging
-console.log('Initializing Study Shift Google Form logging');
+// Study Shift logging (Google Forms) — using timespent
 
-let inStudyZone = false;
-let startTime: string | null = null;
+let enterTime: number | undefined; // store entry timestamp
 
-// Subscribe to entering the study zone
+// Enter zone
 WA.room.onEnterLayer("study-shift-zone").subscribe(() => {
-    if (!inStudyZone) {
-        inStudyZone = true;
-        const dt = new Date();
-        startTime = `${dt.getMonth() + 1}/${dt.getDate()}/${dt.getFullYear()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`;
-    }
+    enterTime = Date.now(); // mark entry time
 });
 
-// Subscribe to leaving the study zone
+// Leave zone
 WA.room.onLeaveLayer("study-shift-zone").subscribe(() => {
-    if (inStudyZone && startTime) {
-        const dt = new Date();
-        const endTime = `${dt.getMonth() + 1}/${dt.getDate()}/${dt.getFullYear()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`;
-        sendPlayerDataToGoogleForm(startTime, endTime); // log both times
-        inStudyZone = false;
-        startTime = null;
-    }
-});
+    if (!enterTime) return;
 
-// Handle browser/tab close while in study zone
-window.addEventListener("beforeunload", () => {
-    if (inStudyZone && startTime) {
-        const dt = new Date();
-        const endTime = `${dt.getMonth() + 1}/${dt.getDate()}/${dt.getFullYear()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`;
-        sendPlayerDataToGoogleForm(startTime, endTime); // log both times
-        inStudyZone = false;
-        startTime = null;
-    }
-});
+    const exitTime = Date.now();
+    const durationMs = exitTime - enterTime;
+    const durationMin = Math.floor(durationMs / 60000); // minutes
 
-// Google Form logging function
-async function sendPlayerDataToGoogleForm(firstPingTime: string, lastPingTime: string) {
-    const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSc9lHYhZy-AjWNShTl-pN97_E4weWEvOgLJevo3yDMbKBNwrg/formResponse";
+    if (durationMin < 1) {
+        console.log('Study Shift: session too short, not logging');
+        enterTime = undefined;
+        return;
+    }
+
     const { name } = WA.player;
     if (!name) return;
 
     const payload = new URLSearchParams();
-    payload.append("entry.890293588", "Study Shift");   // roomId
-    payload.append("entry.292129118", firstPingTime);   // dateTime = start
-    payload.append("entry.1655038687", name);           // username
-    payload.append("entry.1855601666", firstPingTime);  // firstPing (start time)
-    payload.append("entry.519259110", lastPingTime);    // lastPing (end time)
+    payload.append("entry.890293588", WA.room.id);           // roomId
+    payload.append("entry.1655038687", durationMin.toString()); // timespent in minutes
+    payload.append("entry.292129118", name);                // username
+    payload.append("entry.1855601666", enterTime.toString()); // firstPing = time enter
+    payload.append("entry.519259110", exitTime.toString());   // lastPing = time exit
+
+    const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSc9lHYhZy-AjWNShTl-pN97_E4weWEvOgLJevo3yDMbKBNwrg/formResponse";
 
     try {
-        await fetch(FORM_URL, { method: "POST", body: payload, mode: "no-cors" });
-        console.log("Google Form logging success:", payload.toString());
+        fetch(FORM_URL, { method: "POST", body: payload, mode: "no-cors" });
+        console.log("Google Form logged Study Shift session:", payload.toString());
     } catch (error) {
         console.error("Google Form logging error:", error);
     }
-}
+
+    enterTime = undefined; // reset for next session
+});
+
+// Optional: handle browser/tab close while in the zone
+window.addEventListener("beforeunload", () => {
+    if (!enterTime) return;
+
+    const exitTime = Date.now();
+    const durationMs = exitTime - enterTime;
+    const durationMin = Math.floor(durationMs / 60000);
+
+    if (durationMin >= 1) {
+        const { name } = WA.player;
+
+        const payload = new URLSearchParams();
+        payload.append("entry.890293588", WA.room.id);
+        payload.append("entry.1655038687", durationMin.toString()); // timespent
+        payload.append("entry.292129118", name);
+        payload.append("entry.1855601666", enterTime.toString());   // firstPing
+        payload.append("entry.519259110", exitTime.toString());      // lastPing
+
+        navigator.sendBeacon(FORM_URL, payload); // safer for unload
+        console.log("Google Form logged Study Shift on tab close:", payload.toString());
+    }
+
+    enterTime = undefined;
+});
 
     });
 
