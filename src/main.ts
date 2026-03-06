@@ -598,8 +598,8 @@ async function sendPlayerDataToGoogleForm(firstPing: Date, lastPing: Date, times
 
     const payload = new URLSearchParams();
     payload.append("entry.890293588", "Study Shift");                  // roomId
-    payload.append("entry.292129118", name);                           // username
-    payload.append("entry.1655038687", timespent.toString());          // timespent (minutes)
+    payload.append("entry.1655038687", name);                           // username
+    payload.append("entry.292129118", timespent.toString());          // timespent (minutes)
     payload.append("entry.1855601666", formatDateTime(firstPing));     // firstPing (enter time)
     payload.append("entry.519259110", formatDateTime(lastPing));       // lastPing (exit time)
 
