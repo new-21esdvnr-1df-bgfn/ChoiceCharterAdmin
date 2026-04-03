@@ -344,14 +344,6 @@ WA.onInit().then(async() => {
         WA.room.showLayer("facade-furniture-bg");
     });
 
-    WA.room.onEnterLayer("snow_floor").subscribe(() => {
-      WA.room.showLayer("snow");
-    });
-
-    WA.room.onLeaveLayer("snow_floor").subscribe(() => {
-      WA.room.hideLayer("snow");
-    });
-
     WA.room.area.onLeave('clock').subscribe(closePopup);
 
     //Popup Memorial tree
