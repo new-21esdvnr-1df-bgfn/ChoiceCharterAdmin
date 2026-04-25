@@ -356,11 +356,11 @@ WA.onInit().then(async() => {
 let parent_message: EmbeddedWebsite = await WA.room.website.get("parent_message")
     WA.room.onEnterLayer("message_area").subscribe(() => {
       console.log("HI IRYNA")
-      parent_message.visible = true;
+      parent_message.visible = false;
     });
     
   WA.room.onLeaveLayer("message_area").subscribe(() => {
-      parent_message.visible = false;
+      parent_message.visible = true;
     });
        
 
