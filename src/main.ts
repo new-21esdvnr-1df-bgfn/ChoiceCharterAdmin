@@ -353,22 +353,24 @@ WA.onInit().then(async() => {
     WA.room.onLeaveLayer('memorial_tree_sign').subscribe(closePopup)
 
     // Parent Support Form (Google Form)
-let parentSupportModal: any = null;
-
-WA.room.area.onEnter("parent_message").subscribe(() => {
-  parentSupportModal = WA.ui.modal.openModal({
-    title: "Contact Parent Support",
-    src: "https://docs.google.com/forms/d/e/1FAIpQLSeYgEfXULr0-2ts7kSkri655mOYktBkFT2jlc4_CDdPOnEX9A/viewform?embedded=true",
-    position: "right",
-    allowApi: false,
-    allow: "fullscreen"
-  });
+WA.room.onEnterLayer("message_area").subscribe(() => {
+  currentPopup = WA.ui.openPopup(
+    "parent_message",
+    `<iframe 
+        src="https://docs.google.com/forms/d/e/1FAIpQLSeYgEfXULr0-2ts7kSkri655mOYktBkFT2jlc4_CDdPOnEX9A/viewform?embedded=true"
+        width="300"
+        height="400"
+        frameborder="0"
+        style="border:0;">
+     </iframe>`,
+    []
+  );
 });
 
-WA.room.area.onLeave("message_area").subscribe(() => {
-  if (parentSupportModal) {
-    parentSupportModal.close();
-    parentSupportModal = null;
+WA.room.onLeaveLayer("message_area").subscribe(() => {
+  if (currentPopup) {
+    currentPopup.close();
+    currentPopup = undefined;
   }
 });
        
