@@ -353,26 +353,15 @@ WA.onInit().then(async() => {
     WA.room.onLeaveLayer('memorial_tree_sign').subscribe(closePopup)
 
     // Parent Support Form (Google Form)
-WA.room.onEnterLayer("message_area").subscribe(() => {
-  currentPopup = WA.ui.openPopup(
-    "parent_message",
-    `<iframe 
-        src="https://docs.google.com/forms/d/e/1FAIpQLSeYgEfXULr0-2ts7kSkri655mOYktBkFT2jlc4_CDdPOnEX9A/viewform?embedded=true"
-        width="300"
-        height="400"
-        frameborder="0"
-        style="border:0;">
-     </iframe>`,
-    []
-  );
-});
-
-WA.room.onLeaveLayer("message_area").subscribe(() => {
-  if (currentPopup) {
-    currentPopup.close();
-    currentPopup = undefined;
-  }
-});
+let parent_message: EmbeddedWebsite = await WA.room.website.get("parent_message")
+    WA.room.onEnterLayer("message_area").subscribe(() => {
+      console.log("HI IRYNA")
+      parent_message.visible = true;
+    });
+    
+  WA.room.onLeaveLayer("message_area").subscribe(() => {
+      parent_message.visible = false;
+    });
        
 
     // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
