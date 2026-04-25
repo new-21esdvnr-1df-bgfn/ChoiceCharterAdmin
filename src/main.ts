@@ -354,16 +354,15 @@ WA.onInit().then(async() => {
 
     // Parent Support Form (Google Form)
 let parent_message: EmbeddedWebsite = await WA.room.website.get("parent_message")
-  WA.room.onEnterLayer("message_area").subscribe(async () => {
-  const name = WA.player.name;
-
-  if (!parent_message) return;
-    parent_message.url =
-      "https://docs.google.com/forms/d/e/1FAIpQLSeYgEfXULr0-2ts7kSkri655mOYktBkFT2jlc4_CDdPOnEX9A/viewform?embedded=true" +
-      "&entry.1043349109=" + encodeURIComponent(name);
-    parent_message.visible = false;
-  }
-});
+    WA.room.onEnterLayer("message_area").subscribe(() => {
+      console.log("HI IRYNA")
+      parent_message.visible = false;
+    });
+    
+  WA.room.onLeaveLayer("message_area").subscribe(() => {
+      parent_message.visible = true;
+    });
+       
     
   WA.room.onLeaveLayer("message_area").subscribe(() => {
       parent_message.visible = true;
