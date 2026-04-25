@@ -351,6 +351,26 @@ WA.onInit().then(async() => {
         currentPopup = WA.ui.openPopup("memorial-tree-popup","Honoring Gary Morris",[]);
     })
     WA.room.onLeaveLayer('memorial_tree_sign').subscribe(closePopup)
+
+    // Parent Support Form (Google Form)
+let parentSupportModal: any = null;
+
+WA.room.area.onEnter("parent_message").subscribe(() => {
+  parentSupportModal = WA.ui.modal.openModal({
+    title: "Contact Parent Support",
+    src: "https://docs.google.com/forms/d/e/1FAIpQLSeYgEfXULr0-2ts7kSkri655mOYktBkFT2jlc4_CDdPOnEX9A/viewform?embedded=true",
+    position: "right",
+    allowApi: false,
+    allow: "fullscreen"
+  });
+});
+
+WA.room.area.onLeave("message_area").subscribe(() => {
+  if (parentSupportModal) {
+    parentSupportModal.close();
+    parentSupportModal = null;
+  }
+});
        
 
     // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
