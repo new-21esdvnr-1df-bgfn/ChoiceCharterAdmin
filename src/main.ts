@@ -354,6 +354,7 @@ WA.onInit().then(async() => {
 
     // Parent Support Form (Google Form)
 let parent_message: EmbeddedWebsite = await WA.room.website.get("parent_message")
+let parent_message_frame: EmbeddedWebsite = await WA.room.website.get("parent_message_frame")
     WA.room.onEnterLayer("message_area").subscribe(() => {
       console.log("HI IRYNA")
       parent_message.visible = false;
@@ -362,10 +363,14 @@ let parent_message: EmbeddedWebsite = await WA.room.website.get("parent_message"
   WA.room.onLeaveLayer("message_area").subscribe(() => {
       parent_message.visible = true;
     });
-       
+
+        WA.room.onEnterLayer("message_area").subscribe(() => {
+      console.log("HI IRYNA")
+      parent_message_frame.visible = false;
+    });
     
   WA.room.onLeaveLayer("message_area").subscribe(() => {
-      parent_message.visible = true;
+      parent_message_frame.visible = true;
     });
        
 
