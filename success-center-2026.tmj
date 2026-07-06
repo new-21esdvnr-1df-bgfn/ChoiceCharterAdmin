@@ -6511,6 +6511,7 @@
         0,
         0,
         0,
+        1,
         0,
         0,
         0,
@@ -7107,7 +7108,6 @@
         0,
         0,
         0,
-        0,
         2,
         2,
         0,
@@ -7591,6 +7591,7 @@
         0,
         0,
         0,
+        1,
         0,
         0,
         0,
@@ -7619,7 +7620,6 @@
         0,
         0,
         0,
-        0,
         2,
         2,
         2,
@@ -7755,7 +7755,6 @@
         2,
         2,
         2,
-        0,
         0,
         0,
         0,
@@ -8525,6 +8524,7 @@
         0,
         0,
         0,
+        1,
         0,
         0,
         0,
@@ -62919,7 +62919,7 @@
     {
       "columns": 16,
       "firstgid": 1,
-      "image": "success-center-2026-chunk-1-dc78dc60.png",
+      "image": "success-center-2026-chunk-1-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -62955,7 +62955,7 @@
     {
       "columns": 16,
       "firstgid": 257,
-      "image": "success-center-2026-chunk-2-dc78dc60.png",
+      "image": "success-center-2026-chunk-2-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -62970,7 +62970,7 @@
     {
       "columns": 16,
       "firstgid": 513,
-      "image": "success-center-2026-chunk-3-dc78dc60.png",
+      "image": "success-center-2026-chunk-3-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -62985,7 +62985,7 @@
     {
       "columns": 16,
       "firstgid": 769,
-      "image": "success-center-2026-chunk-4-dc78dc60.png",
+      "image": "success-center-2026-chunk-4-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63000,7 +63000,7 @@
     {
       "columns": 16,
       "firstgid": 1025,
-      "image": "success-center-2026-chunk-5-dc78dc60.png",
+      "image": "success-center-2026-chunk-5-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63015,7 +63015,7 @@
     {
       "columns": 16,
       "firstgid": 1281,
-      "image": "success-center-2026-chunk-6-dc78dc60.png",
+      "image": "success-center-2026-chunk-6-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63030,7 +63030,7 @@
     {
       "columns": 16,
       "firstgid": 1537,
-      "image": "success-center-2026-chunk-7-dc78dc60.png",
+      "image": "success-center-2026-chunk-7-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63045,7 +63045,7 @@
     {
       "columns": 16,
       "firstgid": 1793,
-      "image": "success-center-2026-chunk-8-dc78dc60.png",
+      "image": "success-center-2026-chunk-8-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63060,7 +63060,7 @@
     {
       "columns": 16,
       "firstgid": 2049,
-      "image": "success-center-2026-chunk-9-dc78dc60.png",
+      "image": "success-center-2026-chunk-9-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63075,7 +63075,7 @@
     {
       "columns": 16,
       "firstgid": 2305,
-      "image": "success-center-2026-chunk-10-dc78dc60.png",
+      "image": "success-center-2026-chunk-10-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63090,7 +63090,7 @@
     {
       "columns": 16,
       "firstgid": 2561,
-      "image": "success-center-2026-chunk-11-dc78dc60.png",
+      "image": "success-center-2026-chunk-11-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63105,7 +63105,7 @@
     {
       "columns": 16,
       "firstgid": 2817,
-      "image": "success-center-2026-chunk-12-dc78dc60.png",
+      "image": "success-center-2026-chunk-12-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63120,7 +63120,7 @@
     {
       "columns": 16,
       "firstgid": 3073,
-      "image": "success-center-2026-chunk-13-dc78dc60.png",
+      "image": "success-center-2026-chunk-13-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63135,7 +63135,7 @@
     {
       "columns": 16,
       "firstgid": 3329,
-      "image": "success-center-2026-chunk-14-dc78dc60.png",
+      "image": "success-center-2026-chunk-14-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63150,7 +63150,7 @@
     {
       "columns": 16,
       "firstgid": 3585,
-      "image": "success-center-2026-chunk-15-dc78dc60.png",
+      "image": "success-center-2026-chunk-15-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63165,7 +63165,7 @@
     {
       "columns": 16,
       "firstgid": 3841,
-      "image": "success-center-2026-chunk-16-dc78dc60.png",
+      "image": "success-center-2026-chunk-16-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63180,7 +63180,7 @@
     {
       "columns": 16,
       "firstgid": 4097,
-      "image": "success-center-2026-chunk-17-dc78dc60.png",
+      "image": "success-center-2026-chunk-17-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63195,7 +63195,7 @@
     {
       "columns": 16,
       "firstgid": 4353,
-      "image": "success-center-2026-chunk-18-dc78dc60.png",
+      "image": "success-center-2026-chunk-18-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63210,7 +63210,7 @@
     {
       "columns": 16,
       "firstgid": 4609,
-      "image": "success-center-2026-chunk-19-dc78dc60.png",
+      "image": "success-center-2026-chunk-19-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63225,7 +63225,7 @@
     {
       "columns": 16,
       "firstgid": 4865,
-      "image": "success-center-2026-chunk-20-dc78dc60.png",
+      "image": "success-center-2026-chunk-20-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63240,7 +63240,7 @@
     {
       "columns": 16,
       "firstgid": 5121,
-      "image": "success-center-2026-chunk-21-dc78dc60.png",
+      "image": "success-center-2026-chunk-21-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63255,7 +63255,7 @@
     {
       "columns": 16,
       "firstgid": 5377,
-      "image": "success-center-2026-chunk-22-dc78dc60.png",
+      "image": "success-center-2026-chunk-22-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63270,7 +63270,7 @@
     {
       "columns": 16,
       "firstgid": 5633,
-      "image": "success-center-2026-chunk-23-dc78dc60.png",
+      "image": "success-center-2026-chunk-23-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63285,7 +63285,7 @@
     {
       "columns": 16,
       "firstgid": 5889,
-      "image": "success-center-2026-chunk-24-dc78dc60.png",
+      "image": "success-center-2026-chunk-24-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63300,7 +63300,7 @@
     {
       "columns": 16,
       "firstgid": 6145,
-      "image": "success-center-2026-chunk-25-dc78dc60.png",
+      "image": "success-center-2026-chunk-25-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63315,7 +63315,7 @@
     {
       "columns": 16,
       "firstgid": 6401,
-      "image": "success-center-2026-chunk-26-dc78dc60.png",
+      "image": "success-center-2026-chunk-26-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63330,7 +63330,7 @@
     {
       "columns": 16,
       "firstgid": 6657,
-      "image": "success-center-2026-chunk-27-dc78dc60.png",
+      "image": "success-center-2026-chunk-27-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63345,7 +63345,7 @@
     {
       "columns": 16,
       "firstgid": 6913,
-      "image": "success-center-2026-chunk-28-dc78dc60.png",
+      "image": "success-center-2026-chunk-28-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63360,7 +63360,7 @@
     {
       "columns": 16,
       "firstgid": 7169,
-      "image": "success-center-2026-chunk-29-dc78dc60.png",
+      "image": "success-center-2026-chunk-29-39f9c797.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -63375,7 +63375,7 @@
     {
       "columns": 10,
       "firstgid": 7425,
-      "image": "success-center-2026-chunk-30-dc78dc60.png",
+      "image": "success-center-2026-chunk-30-39f9c797.png",
       "imageheight": 320,
       "imagewidth": 320,
       "margin": 0,
@@ -63392,7 +63392,7 @@
   "compressionlevel": -1,
   "height": 70,
   "infinite": false,
-  "nextlayerid": 18,
+  "nextlayerid": 19,
   "nextobjectid": 1,
   "orientation": "orthogonal",
   "renderorder": "right-down",
