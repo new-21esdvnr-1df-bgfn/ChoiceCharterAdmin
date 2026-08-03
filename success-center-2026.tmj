@@ -1236,6 +1236,16 @@
  "orientation":"orthogonal",
  "properties":[
         {
+         "name":"mapImage",
+         "type":"string",
+         "value":"success-center-2026.png"
+        }, 
+        {
+         "name":"mapName",
+         "type":"string",
+         "value":"Success Center"
+        }, 
+        {
          "name":"script",
          "type":"string",
          "value":"src\/main.ts"
