@@ -1248,6 +1248,16 @@
  "orientation":"orthogonal",
  "properties":[
         {
+         "name":"mapCopyright",
+         "type":"string",
+         "value":"Seminars is the sole property of DigiPie Design. All rights are reserved by DigiPie Design. All contents of the map may not be reproduced, distributed (for sale or otherwise), or create derivative works of the copyrighted work without the express written permission of DigiPie Design."
+        }, 
+        {
+         "name":"mapDescription",
+         "type":"string",
+         "value":"Welcome to the Choice Charter school virtual campus!\n\nTo find out more about our school visit our website at www.choicecharterschool.org. For general questions please email:\ninfo@choicecharterschool.org\n\nCEO\nDr. Cynthia Knight\ndr.knight@choicecharterschool.orgPrincipal\n\nUX Director\nMarcia Powell\nmpowell@choicecharterschool.org\n\nRegistrar\nLori Knight\nlknight@choicecharterschool.org\n\nOur mailing address is:\nPO Box 193\nUnion IA, 50258\nPhone: (515) 850 2545"
+        }, 
+        {
          "name":"mapImage",
          "type":"string",
          "value":"seminars.png"
@@ -1261,6 +1271,11 @@
          "name":"script",
          "type":"string",
          "value":"src\/main.ts"
+        }, 
+        {
+         "name":"tilesetCopyright",
+         "type":"string",
+         "value":"This map is the sole property of DigiPie Design. All rights are reserved by DigiPie Design. All contents of the map may not be reproduced, distributed (for sale or otherwise), or create derivative works of the copyrighted work without the express written permission of DigiPie Design."
         }],
  "renderorder":"right-down",
  "tiledversion":"1.11.0",
