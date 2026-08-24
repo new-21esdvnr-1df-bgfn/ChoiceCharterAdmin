@@ -3,6 +3,7 @@
 import { EmbeddedWebsite } from "@workadventure/iframe-api-typings";
 import { bootstrapExtra } from "@workadventure/scripting-api-extra";
 import { levelUp } from "@workadventure/quests";
+import { trackPresence, trackZone } from "./tracking";
 
 console.log('Script started successfully');
 
@@ -511,6 +512,11 @@ function closePopup(){
         currentPopup = undefined;
     }
 }
+/* ─────────────────────────────────────────────────────────────────────────────
+ * DISABLED — TaskMagic presence ping, superseded by the Google Form logging in
+ * ./tracking.ts. Kept for reference only; nothing below runs. Remove once the
+ * Form has covered a full term.
+ * ─────────────────────────────────────────────────────────────────────────────
 //////// Tracking Ping Script
 
 async function sendPlayerData(firstPing: boolean) {
@@ -553,77 +559,13 @@ WA.onInit().then(() => {
     setInterval(() => {
         sendPlayerData(firstPing);
     }, 300000);
-
-    //// End of Tracking Ping Script
-
-// Study Shift logging (Google Forms)
-console.log('Study Shift Google Forms 1.1');
-
-const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSc9lHYhZy-AjWNShTl-pN97_E4weWEvOgLJevo3yDMbKBNwrg/formResponse";
-
-let inStudyZone = false;
-let enterTime: Date | undefined;
-
-// Subscribe to entering the study zone
-WA.room.onEnterLayer("study-shift-zone").subscribe(() => {
-    inStudyZone = true;
-    enterTime = new Date(); // store the entry time
 });
+//// End of Tracking Ping Script
+ */
 
-// Subscribe to leaving the study zone
-WA.room.onLeaveLayer("study-shift-zone").subscribe(() => {
-    if (!inStudyZone || !enterTime) return;
-
-    const exitTime = new Date();
-    const timeSpentMinutes = Math.round((exitTime.getTime() - enterTime.getTime()) / 60000);
-
-    // Only log if time spent >= 1 minute
-    if (timeSpentMinutes < 1) {
-        inStudyZone = false;
-        enterTime = undefined;
-        return;
-    }
-
-    sendPlayerDataToGoogleForm(enterTime, exitTime, timeSpentMinutes);
-
-    inStudyZone = false;
-    enterTime = undefined;
-});
-
-// Handle browser/tab close while in the study zone
-window.addEventListener("beforeunload", () => {
-    if (inStudyZone && enterTime) {
-        const exitTime = new Date();
-        const timeSpentMinutes = Math.round((exitTime.getTime() - enterTime.getTime()) / 60000);
-        if (timeSpentMinutes >= 1) {
-            sendPlayerDataToGoogleForm(enterTime, exitTime, timeSpentMinutes);
-        }
-    }
-});
-
-// Google Form logging function
-async function sendPlayerDataToGoogleForm(firstPing: Date, lastPing: Date, timespent: number) {
-    const { name } = WA.player;
-    if (!name) return;
-
-    const formatDateTime = (dt: Date) =>
-        `${dt.getMonth() + 1}/${dt.getDate()}/${dt.getFullYear()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`;
-
-    const payload = new URLSearchParams();
-    payload.append("entry.890293588", "Study Shift");                  // roomId
-    payload.append("entry.1655038687", name);                           // username
-    payload.append("entry.292129118", timespent.toString());          // timespent (minutes)
-    payload.append("entry.1855601666", formatDateTime(firstPing));     // firstPing (enter time)
-    payload.append("entry.519259110", formatDateTime(lastPing));       // lastPing (exit time)
-
-    try {
-        await fetch(FORM_URL, { method: "POST", body: payload, mode: "no-cors" });
-        console.log("Google Form logging success:", payload.toString());
-    } catch (error) {
-        console.error("Google Form logging error:", error);
-    }
-}
-
-    });
+WA.onInit().then(() => {
+    trackPresence();
+    trackZone("study-shift-zone", "Study Shift");
+}).catch(e => console.error(e));
 
 export {};
