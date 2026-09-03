@@ -4,8 +4,7 @@ import { EmbeddedWebsite } from "@workadventure/iframe-api-typings";
 import { bootstrapExtra } from "@workadventure/scripting-api-extra";
 import { levelUp } from "@workadventure/quests";
 import { trackPresence, trackZone } from "./tracking";
-
-console.log('Script started successfully');
+import { enforceOpeningHours } from "./closing";
 
 let currentPopup: any = undefined;
 
@@ -13,6 +12,10 @@ let currentPopup: any = undefined;
 WA.onInit().then(async() => {
     console.log('Scripting API ready');
     console.log('Player tags: ',WA.player.tags)
+
+    // Closed outside opening hours (see closing.ts); stop here if redirected.
+    if (!enforceOpeningHours()) return;
+
     let webAnimationOutside: EmbeddedWebsite;
     let webAnimationOutside2: EmbeddedWebsite;
     let webAnimationOutside3: EmbeddedWebsite;
