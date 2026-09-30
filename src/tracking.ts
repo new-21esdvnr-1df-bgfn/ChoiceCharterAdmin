@@ -4,22 +4,10 @@
  * Presence logging to the CharterVerse Google Form. Replaces the TaskMagic
  * webhook ping, and writes the same five columns the sheet already has.
  *
- * A visit is the whole time the tab is open on the map — switching to another
- * tab does NOT pause the clock. One row is written per visit, when it ends:
- * the tab is closed or navigated away (the nightly closing kick counts, which
- * is what keeps closed hours out of the numbers).
- *
- * Two things interrupt the simple picture:
- *  - A machine that goes to sleep (or a tab the browser freezes) stops running
- *    entirely. A heartbeat timestamp detects the gap on wake: the old visit is
- *    closed at the moment the page stopped running — sleep is not presence —
- *    and a new visit starts at wake.
- *  - A crashed/killed browser never fires pagehide. The visit-in-progress is
- *    saved to localStorage every heartbeat and submitted retroactively the
- *    next time the map loads on that machine (attributed to whoever is logged
- *    in then — on per-student devices that is the same student).
- *
- * Visits under MIN_MINUTES are not attendance and write no row.
+ * A row is written when a session segment ends, not on a timer, so the sheet
+ * holds sessions rather than raw pings. Segments end on leaving the map, on the
+ * tab going hidden, and every MAX_SESSION_MINUTES so a browser crash costs at
+ * most that much rather than the whole visit.
  */
 
 const FORM_URL =
@@ -37,13 +25,8 @@ const ENTRY = {
 // of where the player's browser is.
 const TIMEZONE = "America/Chicago";
 
-// Below this the visit doesn't count as attending class, so no row is written.
-const MIN_MINUTES = 5;
-const HEARTBEAT_MS = 60_000;
-// A heartbeat gap larger than this means the page wasn't running (machine
-// asleep, tab frozen by the browser): the gap is not presence. Generous enough
-// to survive background-tab timer throttling, which still ticks about 1/min.
-const GAP_TOLERANCE_MS = 5 * 60_000;
+const MIN_MINUTES = 1;
+const MAX_SESSION_MINUTES = 30;
 
 const formatter = new Intl.DateTimeFormat("en-US", {
     timeZone: TIMEZONE,
@@ -85,12 +68,8 @@ function roomLabel(): string {
     return path[0] === "_" ? `Dev: ${pretty}` : pretty;
 }
 
-function minutesBetween(start: Date, end: Date): number {
-    return Math.round((end.getTime() - start.getTime()) / 60_000);
-}
-
 function submit(room: string, start: Date, end: Date): void {
-    const minutes = minutesBetween(start, end);
+    const minutes = Math.round((end.getTime() - start.getTime()) / 60_000);
     if (minutes < MIN_MINUTES) return;
 
     // A row with no username is unattributable noise in the sheet.
@@ -126,113 +105,77 @@ function submit(room: string, start: Date, end: Date): void {
     console.log(`[tracking] ${room} ${minutes}min beacon=${queued}`);
 }
 
-function storageKey(room: string): string {
-    return `charterverse-tracking:${room}`;
-}
-
-/**
- * Submit a visit a crashed/killed browser left behind in localStorage.
- * Best effort: storage may be unavailable, and on shared devices the row is
- * attributed to the player who is logged in now.
- */
-function recoverAbandonedVisit(room: string): void {
-    let raw: string | null = null;
-    try {
-        raw = localStorage.getItem(storageKey(room));
-        if (raw !== null) localStorage.removeItem(storageKey(room));
-    } catch {
-        return;
-    }
-    if (raw === null) return;
-
-    try {
-        const saved = JSON.parse(raw) as { start: number; lastAlive: number };
-        if (typeof saved.start === "number" && typeof saved.lastAlive === "number") {
-            submit(room, new Date(saved.start), new Date(saved.lastAlive));
-        }
-    } catch {
-        // Corrupt entry: already removed, nothing to recover.
-    }
-}
-
 class Session {
+    private active = false;
     private start: Date | undefined;
-    private lastAlive: Date | undefined;
-    private heartbeat: number | undefined;
+    private capTimer: number | undefined;
 
     constructor(private readonly room: string) {}
 
     open(): void {
-        if (this.start) return;
-        this.start = new Date();
-        this.lastAlive = this.start;
-        this.persist();
-        this.heartbeat = window.setInterval(() => this.tick(), HEARTBEAT_MS);
+        this.active = true;
+        this.begin();
     }
 
     close(): void {
-        if (this.heartbeat !== undefined) {
-            window.clearInterval(this.heartbeat);
-            this.heartbeat = undefined;
+        this.cut();
+        this.active = false;
+    }
+
+    suspend(): void {
+        this.cut();
+    }
+
+    resume(): void {
+        if (this.active) this.begin();
+    }
+
+    private begin(): void {
+        if (this.start) return;
+        this.start = new Date();
+        this.capTimer = window.setInterval(() => {
+            this.cut();
+            this.begin();
+        }, MAX_SESSION_MINUTES * 60_000);
+    }
+
+    private cut(): void {
+        if (this.capTimer !== undefined) {
+            window.clearInterval(this.capTimer);
+            this.capTimer = undefined;
         }
-        if (!this.start || !this.lastAlive) return;
-        // Normally end = now; the clamp only bites when close() fires right
-        // after a long suspension (closing a tab that had been frozen).
-        const end = new Date(Math.min(Date.now(), this.lastAlive.getTime() + GAP_TOLERANCE_MS));
-        submit(this.room, this.start, end);
+        if (!this.start) return;
+        submit(this.room, this.start, new Date());
         this.start = undefined;
-        this.lastAlive = undefined;
-        try {
-            localStorage.removeItem(storageKey(this.room));
-        } catch {
-            /* nothing to clean up */
-        }
     }
+}
 
-    private tick(): void {
-        if (!this.start || !this.lastAlive) return;
-        const now = new Date();
-        if (now.getTime() - this.lastAlive.getTime() > GAP_TOLERANCE_MS) {
-            // The page just woke from a sleep/freeze: end the old visit where
-            // the heartbeats stopped and start a fresh one now.
-            submit(this.room, this.start, this.lastAlive);
-            this.start = now;
+function bindLifecycle(session: Session): void {
+    // visibilitychange is the only exit signal mobile browsers fire reliably;
+    // pagehide covers desktop tab close and navigation.
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") {
+            session.suspend();
+        } else {
+            session.resume();
         }
-        this.lastAlive = now;
-        this.persist();
-    }
-
-    private persist(): void {
-        if (!this.start || !this.lastAlive) return;
-        try {
-            localStorage.setItem(
-                storageKey(this.room),
-                JSON.stringify({ start: this.start.getTime(), lastAlive: this.lastAlive.getTime() }),
-            );
-        } catch {
-            /* storage unavailable: crash recovery just won't cover this visit */
-        }
-    }
+    });
+    window.addEventListener("pagehide", () => session.close());
 }
 
 /** Logs time spent in the map as a whole. Call once, inside WA.onInit(). */
 export function trackPresence(): void {
     if (WA.player.tags.includes("bot")) return;
-    const room = roomLabel();
-    recoverAbandonedVisit(room);
-    const session = new Session(room);
+    const session = new Session(roomLabel());
     session.open();
-    // pagehide covers tab close and navigation — including the closing-time
-    // kick, which is what keeps after-hours time out of the sheet.
-    window.addEventListener("pagehide", () => session.close());
+    bindLifecycle(session);
 }
 
 /** Logs time spent inside one tile layer, reported under `label`. */
 export function trackZone(layerName: string, label: string): void {
     if (WA.player.tags.includes("bot")) return;
-    recoverAbandonedVisit(label);
     const session = new Session(label);
     WA.room.onEnterLayer(layerName).subscribe(() => session.open());
     WA.room.onLeaveLayer(layerName).subscribe(() => session.close());
-    window.addEventListener("pagehide", () => session.close());
+    bindLifecycle(session);
 }
