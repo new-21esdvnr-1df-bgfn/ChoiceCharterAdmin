@@ -789,7 +789,24 @@
          "draworder":"topdown",
          "id":2,
          "name":"floorLayer",
-         "objects":[],
+         "objects":[
+                {
+                 "height":131,
+                 "id":1,
+                 "name":"daily-announcements-screen-outside",
+                 "properties":[
+                        {
+                         "name":"url",
+                         "type":"string",
+                         "value":"https:\/\/docs.google.com\/presentation\/d\/e\/2PACX-1vTAu4_65ZGD6KM1qWBCFQVSClSO-KATwV0Jdv0KRikJEQoLVOPQJxOrppGOzs3ijoZXIEXbRw9nMmN0\/pubembed?start=false&loop=false&delayms=3000&rm=minimal"
+                        }],
+                 "rotation":0,
+                 "type":"website",
+                 "visible":true,
+                 "width":288,
+                 "x":784,
+                 "y":433
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -1232,7 +1249,7 @@
          "y":0
         }],
  "nextlayerid":19,
- "nextobjectid":1,
+ "nextobjectid":2,
  "orientation":"orthogonal",
  "properties":[
         {
