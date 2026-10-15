@@ -798,7 +798,7 @@
                         {
                          "name":"url",
                          "type":"string",
-                         "value":"https:\/\/docs.google.com\/presentation\/d\/e\/2PACX-1vTAu4_65ZGD6KM1qWBCFQVSClSO-KATwV0Jdv0KRikJEQoLVOPQJxOrppGOzs3ijoZXIEXbRw9nMmN0\/pubembed?start=false&loop=false&delayms=3000&rm=minimal"
+                         "value":"https:\/\/docs.google.com\/presentation\/d\/e\/2PACX-1vTAu4_65ZGD6KM1qWBCFQVSClSO-KATwV0Jdv0KRikJEQoLVOPQJxOrppGOzs3ijoZXIEXbRw9nMmN0\/pubembed?start=true&loop=true&delayms=5000&rm=minimal"
                         }],
                  "rotation":0,
                  "type":"website",
